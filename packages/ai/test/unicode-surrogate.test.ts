@@ -498,6 +498,22 @@ describe("AI Providers Unicode Surrogate Pair Tests", () => {
 		});
 	});
 
+	describe.skipIf(!process.env.NANO_GPT_API_KEY)("NanoGPT Provider Unicode Handling", () => {
+		const llm = getModel("nano-gpt", "moonshotai/kimi-k2.6");
+
+		it("should handle emoji in tool results", { retry: 3, timeout: 30000 }, async () => {
+			await testEmojiInToolResults(llm);
+		});
+
+		it("should handle real-world LinkedIn comment data with emoji", { retry: 3, timeout: 30000 }, async () => {
+			await testRealWorldLinkedInData(llm);
+		});
+
+		it("should handle unpaired high surrogate (0xD83D) in tool results", { retry: 3, timeout: 30000 }, async () => {
+			await testUnpairedHighSurrogate(llm);
+		});
+	});
+
 	describe.skipIf(!hasCloudflareWorkersAICredentials())("Cloudflare Workers AI Provider Unicode Handling", () => {
 		const llm = getModel("cloudflare-workers-ai", "@cf/moonshotai/kimi-k2.6");
 

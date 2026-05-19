@@ -553,6 +553,21 @@ describe("Context overflow error handling", () => {
 	});
 
 	// =============================================================================
+	// NanoGPT
+	// =============================================================================
+
+	describe.skipIf(!process.env.NANO_GPT_API_KEY)("NanoGPT", () => {
+		it("moonshotai/kimi-k2.6 - should detect overflow via isContextOverflow", async () => {
+			const model = getModel("nano-gpt", "moonshotai/kimi-k2.6");
+			const result = await testContextOverflow(model, process.env.NANO_GPT_API_KEY!);
+			logResult(result);
+
+			expect(result.stopReason).toBe("error");
+			expect(isContextOverflow(result.response, model.contextWindow)).toBe(true);
+		}, 120000);
+	});
+
+	// =============================================================================
 	// Ollama (local)
 	// =============================================================================
 

@@ -156,6 +156,14 @@ describe("Token Statistics on Abort", () => {
 		});
 	});
 
+	describe.skipIf(!process.env.NANO_GPT_API_KEY)("NanoGPT Provider", () => {
+		const llm = getModel("nano-gpt", "moonshotai/kimi-k2.6");
+
+		it("should include token stats when aborted mid-stream", { retry: 3, timeout: 30000 }, async () => {
+			await testTokensOnAbort(llm);
+		});
+	});
+
 	describe.skipIf(!hasCloudflareWorkersAICredentials())("Cloudflare Workers AI Provider", () => {
 		const llm = getModel("cloudflare-workers-ai", "@cf/moonshotai/kimi-k2.6");
 

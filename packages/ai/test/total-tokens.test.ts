@@ -420,6 +420,29 @@ describe("totalTokens field", () => {
 	});
 
 	// =========================================================================
+	// NanoGPT
+	// =========================================================================
+
+	describe.skipIf(!process.env.NANO_GPT_API_KEY)("NanoGPT", () => {
+		it(
+			"moonshotai/kimi-k2.6 - should return totalTokens equal to sum of components",
+			{ retry: 3, timeout: 60000 },
+			async () => {
+				const llm = getModel("nano-gpt", "moonshotai/kimi-k2.6");
+
+				console.log(`\nNanoGPT / ${llm.id}:`);
+				const { first, second } = await testTotalTokensWithCache(llm, { apiKey: process.env.NANO_GPT_API_KEY });
+
+				logUsage("First request", first);
+				logUsage("Second request", second);
+
+				assertTotalTokensEqualsComponents(first);
+				assertTotalTokensEqualsComponents(second);
+			},
+		);
+	});
+
+	// =========================================================================
 	// Mistral
 	// =========================================================================
 

@@ -615,6 +615,21 @@ describe("Generate E2E Tests", () => {
 		});
 	});
 
+	describe.skipIf(!process.env.NANO_GPT_API_KEY)(
+		"NanoGPT Provider (moonshotai/kimi-k2.6 via OpenAI Completions)",
+		() => {
+			const llm = getModel("nano-gpt", "moonshotai/kimi-k2.6");
+
+			it("should complete basic text generation", { retry: 3 }, async () => {
+				await basicTextGeneration(llm);
+			});
+
+			it("should handle streaming", { retry: 3 }, async () => {
+				await handleStreaming(llm);
+			});
+		},
+	);
+
 	describe.skipIf(!hasCloudflareWorkersAICredentials())(
 		"Cloudflare Workers AI Provider (Kimi K2.6 via OpenAI Completions)",
 		() => {
