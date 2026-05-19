@@ -1,0 +1,13 @@
+ottengo questo errore
+pi exiting due to uncaughtException:
+^[[13;1:3uTypeError: this.spinnerColorFn is not a function
+    at Loader.updateDisplay (C:\Users\giann\Desktop\Repository\pi\packages\tui\src\components\loader.ts:85:69)
+    at Loader.start (C:\Users\giann\Desktop\Repository\pi\packages\tui\src\components\loader.ts:48:8)
+    at Loader.setIndicator (C:\Users\giann\Desktop\Repository\pi\packages\tui\src\components\loader.ts:69:8)
+    at new Loader (C:\Users\giann\Desktop\Repository\pi\packages\tui\src\components\loader.ts:37:8)
+    at InteractiveMode.createWorkingLoader (C:\Users\giann\Desktop\Repository\pi\packages\coding-agent\src\modes\interactive\interactive-mode.ts:1689:10)
+    at InteractiveMode.handleEvent (C:\Users\giann\Desktop\Repository\pi\packages\coding-agent\src\modes\interactive\interactive-mode.ts:2678:35)
+    at <anonymous> (C:\Users\giann\Desktop\Repository\pi\packages\coding-agent\src\modes\interactive\interactive-mode.ts:2645:15)
+    at AgentSession._emit (C:\Users\giann\Desktop\Repository\pi\packages\coding-agent\src\core\agent-session.ts:452:4)
+    at _handleAgentEvent (C:\Users\giann\Desktop\Repository\pi\packages\coding-agent\src\core\agent-session.ts:495:8)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)

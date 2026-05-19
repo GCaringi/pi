@@ -377,6 +377,60 @@ async function fetchAiGatewayModels(): Promise<Model<any>[]> {
 	}
 }
 
+async function fetchNanoGptModels(): Promise<Model<any>[]> {
+	try {
+		console.log("Fetching models from NanoGPT API...");
+		const response = await fetch("https://nano-gpt.com/api/v1/models");
+		const data = await response.json();
+		const models: Model<any>[] = [];
+
+		const items = Array.isArray(data.data) ? data.data : [];
+		for (const model of items) {
+			if (!model.id) continue;
+			// Heuristic: treat models from reputable upstreams as tool-capable
+			// since NanoGPT doesn't expose tool-use flags natively
+			const toolCapableOwners = [
+				"anthropic", "openai", "deepseek", "moonshot", "mistral",
+				"x-ai", "groq", "meta", "qwen", "google", "zhipu",
+			];
+			if (!toolCapableOwners.includes(model.owned_by)) continue;
+
+			const input: ("text" | "image")[] = ["text"];
+			// Include reasoning flag for models with :thinking suffix or known reasoning families
+			const reasoning = model.id.includes(":thinking") ||
+				model.id.includes("deepseek-r") ||
+				model.id.includes("o1") ||
+				model.id.includes("o3") ||
+				model.id.includes("o4") ||
+				model.id.includes("-thinking");
+
+			models.push({
+				id: model.id,
+				name: model.id,
+				api: "openai-completions",
+				provider: "nano-gpt",
+				baseUrl: "https://nano-gpt.com/api/v1",
+				reasoning,
+				input,
+				cost: {
+					input: 0,
+					output: 0,
+					cacheRead: 0,
+					cacheWrite: 0,
+				},
+				contextWindow: 4096,
+				maxTokens: 4096,
+			});
+		}
+
+		console.log(`Fetched ${models.length} tool-capable models from NanoGPT`);
+		return models;
+	} catch (error) {
+		console.error("Failed to fetch NanoGPT models:", error);
+		return [];
+	}
+}
+
 async function loadModelsDevData(): Promise<Model<any>[]> {
 	try {
 		console.log("Fetching models from models.dev API...");
@@ -1125,12 +1179,14 @@ async function generateModels() {
 	// models.dev: Anthropic, Google, OpenAI, Groq, Cerebras
 	// OpenRouter: xAI and other providers (excluding Anthropic, Google, OpenAI)
 	// AI Gateway: OpenAI-compatible catalog with tool-capable models
+	// NanoGPT: OpenAI-compatible API with aggregated upstream models
 	const modelsDevModels = await loadModelsDevData();
 	const openRouterModels = await fetchOpenRouterModels();
 	const aiGatewayModels = await fetchAiGatewayModels();
+	const nanoGptModels = await fetchNanoGptModels();
 
 	// Combine models (models.dev has priority)
-	const allModels = [...modelsDevModels, ...openRouterModels, ...aiGatewayModels].filter(
+	const allModels = [...modelsDevModels, ...openRouterModels, ...aiGatewayModels, ...nanoGptModels].filter(
 		(model) =>
 			!((model.provider === "opencode" || model.provider === "opencode-go") && model.id === "gpt-5.3-codex-spark"),
 	);

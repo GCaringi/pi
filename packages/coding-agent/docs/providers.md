@@ -74,6 +74,7 @@ pi
 | Xiaomi MiMo Token Plan (China) | `XIAOMI_TOKEN_PLAN_CN_API_KEY` | `xiaomi-token-plan-cn` |
 | Xiaomi MiMo Token Plan (Amsterdam) | `XIAOMI_TOKEN_PLAN_AMS_API_KEY` | `xiaomi-token-plan-ams` |
 | Xiaomi MiMo Token Plan (Singapore) | `XIAOMI_TOKEN_PLAN_SGP_API_KEY` | `xiaomi-token-plan-sgp` |
+| NanoGPT | `NANO_GPT_API_KEY` | `nano-gpt` |
 
 Reference for environment variables and `auth.json` keys: [`const envMap`](https://github.com/earendil-works/pi-mono/blob/main/packages/ai/src/env-api-keys.ts) in [`packages/ai/src/env-api-keys.ts`](https://github.com/earendil-works/pi-mono/blob/main/packages/ai/src/env-api-keys.ts).
 
@@ -93,7 +94,8 @@ Store credentials in `~/.pi/agent/auth.json`:
   "xiaomi": { "type": "api_key", "key": "..." },
   "xiaomi-token-plan-cn":  { "type": "api_key", "key": "..." },
   "xiaomi-token-plan-ams": { "type": "api_key", "key": "..." },
-  "xiaomi-token-plan-sgp": { "type": "api_key", "key": "..." }
+  "xiaomi-token-plan-sgp": { "type": "api_key", "key": "..." },
+  "nano-gpt": { "type": "api_key", "key": "..." }
 }
 ```
 
@@ -214,6 +216,15 @@ pi --provider cloudflare-workers-ai --model "@cf/moonshotai/kimi-k2.6"
 ```
 
 Pi automatically sets `x-session-affinity` for [prefix caching](https://developers.cloudflare.com/workers-ai/features/prompt-caching/) discounts.
+
+### NanoGPT
+
+```bash
+export NANO_GPT_API_KEY=...
+pi --provider nano-gpt --model "moonshotai/kimi-k2.6"
+```
+
+NanoGPT is an OpenAI-compatible API that aggregates models from multiple upstream providers. Use the upstream model IDs (e.g., `moonshotai/kimi-k2.6`, `claude-sonnet-4-5`) when selecting a model.
 
 ### Google Vertex AI
 

@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- Added NanoGPT as a built-in OpenAI-compatible provider with `NANO_GPT_API_KEY` authentication.
+
 ### Changed
 
 - Changed source syntax to avoid TypeScript constructs that require JavaScript emit, keeping core sources compatible with Node.js strip-only TypeScript checks.
