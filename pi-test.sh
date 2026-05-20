@@ -38,6 +38,7 @@ if [[ "$NO_ENV" == "true" ]]; then
   unset GOOGLE_CLOUD_PROJECT
   unset GCLOUD_PROJECT
   unset GOOGLE_CLOUD_LOCATION
+  unset GOOGLE_CLOUD_API_KEY
   unset AWS_PROFILE
   unset AWS_ACCESS_KEY_ID
   unset AWS_SECRET_ACCESS_KEY
@@ -51,6 +52,18 @@ if [[ "$NO_ENV" == "true" ]]; then
   unset AZURE_OPENAI_API_KEY
   unset AZURE_OPENAI_BASE_URL
   unset AZURE_OPENAI_RESOURCE_NAME
+  unset DEEPSEEK_API_KEY
+  unset TOGETHER_API_KEY
+  unset FIREWORKS_API_KEY
+  unset KIMI_API_KEY
+  unset NANO_GPT_API_KEY
+  unset CLOUDFLARE_API_KEY
+  unset XIAOMI_API_KEY
+  unset XIAOMI_TOKEN_PLAN_CN_API_KEY
+  unset XIAOMI_TOKEN_PLAN_AMS_API_KEY
+  unset XIAOMI_TOKEN_PLAN_SGP_API_KEY
+  unset MOONSHOT_API_KEY
+  unset BEDROCK_EXTENSIVE_MODEL_TEST
   echo "Running without API keys..."
 fi
 
